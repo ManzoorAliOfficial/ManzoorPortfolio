@@ -1,17 +1,30 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import styles from "./Intro.module.css";
+
+const NAME = "CodeWithManzoor";
+const ROLE_LINE_1 = "SOFTWARE ENGINEER  ·  FRONTEND DEVELOPER";
+const ROLE_LINE_2 = "CRAFTING METHODICAL, IMPACTFUL, & SECURE CODE";
 
 const Intro = ({ onComplete }) => {
   const [isVisible, setIsVisible] = useState(true);
+  const [showScanline, setShowScanline] = useState(false);
 
   useEffect(() => {
-    // Total intro duration: 3.3 seconds (User requested longer duration for name completion)
-    const timer = setTimeout(() => {
+    // Trigger scanline glitch effect mid-way
+    const scanTimer = setTimeout(() => setShowScanline(true), 900);
+    const hideTimer = setTimeout(() => setShowScanline(false), 1100);
+
+    const exitTimer = setTimeout(() => {
       setIsVisible(false);
       if (onComplete) onComplete();
-    }, 3300);
-    return () => clearTimeout(timer);
+    }, 3600);
+
+    return () => {
+      clearTimeout(scanTimer);
+      clearTimeout(hideTimer);
+      clearTimeout(exitTimer);
+    };
   }, [onComplete]);
 
   return (
@@ -19,81 +32,105 @@ const Intro = ({ onComplete }) => {
       {isVisible && (
         <motion.div
           className={styles.intro}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.4 }}
+          exit={{ opacity: 0, scale: 1.04 }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
         >
-          {/* Lightning Flash - Accelerated */}
+          {/* ── Ambient radial glow ── */}
           <motion.div
-            className={styles.lightning}
+            className={styles.ambientGlow}
             initial={{ opacity: 0 }}
-            animate={{
-              opacity: [0, 0.6, 0, 0.3, 0, 0.1, 0],
-            }}
-            transition={{
-              delay: 1.0,
-              duration: 0.5,
-              times: [0, 0.1, 0.2, 0.4, 0.5, 0.7, 1],
-              ease: "easeOut",
-            }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.2 }}
           />
 
-          {/* Cyan Edge Glow */}
+          {/* ── Edge vignette glow ── */}
           <motion.div
             className={styles.edgeGlow}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
+            transition={{ delay: 0.3, duration: 1 }}
           />
 
-          {/* Vertical Grid Lines */}
-          <div className={styles.gridLines}>
-            {[...Array(15)].map((_, i) => (
+          {/* ── Vertical grid lines ── */}
+          <div className={styles.gridLines} aria-hidden="true">
+            {[...Array(18)].map((_, i) => (
               <motion.span
                 key={i}
                 className={styles.line}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.05 + i * 0.01, duration: 0.4 }}
+                initial={{ scaleY: 0, opacity: 0 }}
+                animate={{ scaleY: 1, opacity: 1 }}
+                transition={{
+                  delay: 0.02 + i * 0.012,
+                  duration: 0.5,
+                  ease: "easeOut",
+                }}
               />
             ))}
           </div>
 
-          {/* Name - Staggered Letter Animation (No Blur for Speed) */}
+          {/* ── Horizontal scanline glitch ── */}
+          <AnimatePresence>
+            {showScanline && (
+              <motion.div
+                className={styles.scanline}
+                initial={{ top: "0%" }}
+                animate={{ top: "110%" }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.18, ease: "linear" }}
+              />
+            )}
+          </AnimatePresence>
+
+          {/* ── Lightning flash ── */}
+          <motion.div
+            className={styles.lightning}
+            aria-hidden="true"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: [0, 0.55, 0, 0.25, 0, 0.08, 0] }}
+            transition={{
+              delay: 0.95,
+              duration: 0.45,
+              times: [0, 0.08, 0.18, 0.35, 0.5, 0.75, 1],
+            }}
+          />
+
+          {/* ── Corner brackets ── */}
+          {["tl", "tr", "bl", "br"].map((pos, i) => (
+            <motion.div
+              key={pos}
+              className={`${styles.bracket} ${styles[pos]}`}
+              initial={{ opacity: 0, scale: 0.6 }}
+              animate={{ opacity: 0.35, scale: 1 }}
+              transition={{ delay: 0.2 + i * 0.07, duration: 0.5 }}
+              aria-hidden="true"
+            />
+          ))}
+
+          {/* ── Name ── */}
           <motion.h1
             className={styles.name}
             initial="hidden"
             animate="visible"
             variants={{
-              hidden: { opacity: 0 },
+              hidden: {},
               visible: {
-                opacity: 1,
-                transition: {
-                  staggerChildren: 0.04,
-                  delayChildren: 0.1,
-                },
+                transition: { staggerChildren: 0.045, delayChildren: 0.15 },
               },
             }}
           >
-            {Array.from("CodeWithManzoor").map((char, index) => (
+            {Array.from(NAME).map((char, i) => (
               <motion.span
-                key={index}
+                key={i}
+                className={styles.gradientChar}
+                style={{ display: "inline-block", whiteSpace: "pre" }}
                 variants={{
-                  hidden: {
-                    opacity: 0,
-                    y: 20,
-                    scale: 1.2,
-                    // Removed blur for mobile performance
-                  },
+                  hidden: { opacity: 0, y: 28, rotateX: -40 },
                   visible: {
                     opacity: 1,
                     y: 0,
-                    scale: 1,
+                    rotateX: 0,
+                    transition: { type: "spring", stiffness: 200, damping: 18 },
                   },
-                }}
-                className={styles.gradientChar}
-                style={{
-                  display: "inline-block",
-                  whiteSpace: "pre",
                 }}
               >
                 {char}
@@ -101,26 +138,40 @@ const Intro = ({ onComplete }) => {
             ))}
           </motion.h1>
 
-          {/* Role - Fade in after name settles */}
-          <motion.p
-            className={styles.role}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.3, duration: 0.6 }}
-          >
-            <p className="gradient-text">
-              SOFTWARE ENGINEER — FRONTEND DEVELOPER & BUILDING INTERACTIVE
-              <br />
-              CRAFTING VULNERABILITIES-FREE, METHODICAL, AND IMPACTFUL CODE.
-            </p>
-          </motion.p>
+          {/* ── Divider line ── */}
+          <motion.div
+            className={styles.divider}
+            initial={{ scaleX: 0, opacity: 0 }}
+            animate={{ scaleX: 1, opacity: 1 }}
+            transition={{ delay: 1.35, duration: 0.55, ease: "easeOut" }}
+          />
 
-          {/* Pulsing Dot */}
+          {/* ── Role text ── */}
+          <motion.div
+            className={styles.role}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.5, duration: 0.6, ease: "easeOut" }}
+          >
+            <span>{ROLE_LINE_1}</span>
+            <br />
+            <span>{ROLE_LINE_2}</span>
+          </motion.div>
+
+          {/* ── Progress bar ── */}
+          <motion.div
+            className={styles.progressBar}
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ delay: 0.1, duration: 3.2, ease: "linear" }}
+          />
+
+          {/* ── Pulsing status dot ── */}
           <motion.div
             className={styles.dot}
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1.0, duration: 0.4, type: "spring" }}
+            transition={{ delay: 1.1, duration: 0.4, type: "spring" }}
           />
         </motion.div>
       )}

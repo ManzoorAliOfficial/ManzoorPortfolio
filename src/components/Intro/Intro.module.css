@@ -1,265 +1,363 @@
+/* ═══════════════════════════════════════════════
+   Intro.module.css  —  CodeWithManzoor splash
+   Colors / bg match original palette exactly
+   ═══════════════════════════════════════════════ */
+
+/* ── CSS Custom Properties ── */
+:root {
+  --primary: #00ff88;
+  --accent-cyan: #00ffcc;
+  --accent-blue: #00d4ff;
+  --accent-purple: #bd00ff;
+  --bg: #000000;
+  --line-color: rgba(255, 255, 255, 0.03);
+  --glow-green: rgba(0, 255, 136, 0.4);
+  --glow-cyan: rgba(0, 255, 200, 0.35);
+  --glow-blue: rgba(0, 200, 255, 0.2);
+}
+
+/* ── Root Container ── */
 .intro {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: #000;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    overflow: hidden;
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  overflow: hidden;
+  perspective: 800px;
 }
 
-/* Intro Navigation */
-.introNav {
-    position: absolute;
-    top: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 40px;
-    z-index: 5;
+/* ── Ambient Centre Glow ── */
+.ambientGlow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 60% 50% at 50% 50%,
+    rgba(0, 255, 200, 0.06) 0%,
+    rgba(0, 200, 255, 0.04) 40%,
+    transparent 70%
+  );
+  z-index: 0;
 }
 
-.introNav a {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 5rem;
-    color: rgba(255, 255, 255, 0.7);
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.introNav a:hover {
-    color: var(--primary, #00ff88);
-}
-
-.introNav a span {
-    color: var(--primary, #00ff88);
-    margin-right: 4px;
-}
-
-/* Lightning Flash Effect */
-.lightning {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg,
-            rgba(255, 255, 255, 0.8) 0%,
-            rgba(0, 255, 200, 0.4) 30%,
-            rgba(0, 200, 255, 0.3) 60%,
-            transparent 100%);
-    z-index: 10;
-    pointer-events: none;
-}
-
-/* Cyan/Blue Edge Glow (Vignette) */
+/* ── Cyan / Blue Edge Vignette ── */
 .edgeGlow {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    /* Radial gradient for edge glow */
-    background: radial-gradient(ellipse at center,
-            transparent 40%,
-            rgba(0, 255, 200, 0.08) 70%,
-            rgba(0, 200, 255, 0.15) 100%);
-    z-index: 0;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 40%,
+    rgba(0, 255, 200, 0.07) 70%,
+    rgba(0, 200, 255, 0.14) 100%
+  );
+  z-index: 0;
 }
 
-/* Subtle animated light sweep */
 .edgeGlow::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: conic-gradient(from 0deg at 50% 50%,
-            transparent 0deg,
-            rgba(0, 255, 200, 0.03) 60deg,
-            transparent 120deg);
-    animation: lightSweep 8s linear infinite;
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    transparent 0deg,
+    rgba(0, 255, 200, 0.025) 60deg,
+    transparent 120deg
+  );
+  animation: lightSweep 10s linear infinite;
 }
 
 @keyframes lightSweep {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
+  to { transform: rotate(360deg); }
 }
 
-/* Vertical Grid Lines */
+/* ── Vertical Grid Lines ── */
 .gridLines {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: space-evenly;
-    pointer-events: none;
-    z-index: 1;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: space-evenly;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .line {
-    width: 1px;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.03);
+  width: 1px;
+  height: 100%;
+  background: var(--line-color);
+  transform-origin: top center;
 }
 
-/* Name - Will be scaled via Framer Motion */
+/* ── Scanline Glitch ── */
+.scanline {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--accent-cyan) 30%,
+    var(--accent-blue) 60%,
+    transparent 100%
+  );
+  opacity: 0.6;
+  z-index: 8;
+  pointer-events: none;
+  box-shadow: 0 0 12px var(--accent-cyan);
+}
+
+/* ── Lightning Flash ── */
+.lightning {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.75) 0%,
+    rgba(0, 255, 200, 0.38) 30%,
+    rgba(0, 200, 255, 0.28) 60%,
+    transparent 100%
+  );
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* ── Corner Brackets ── */
+.bracket {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.bracket::before,
+.bracket::after {
+  content: "";
+  position: absolute;
+  background: var(--accent-cyan);
+}
+
+/* Horizontal arm */
+.bracket::before {
+  height: 2px;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+/* Vertical arm */
+.bracket::after {
+  width: 2px;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+/* Top-left */
+.tl { top: 32px; left: 32px; }
+
+/* Top-right — flip horizontal */
+.tr {
+  top: 32px;
+  right: 32px;
+  transform: scaleX(-1);
+}
+
+/* Bottom-left — flip vertical */
+.bl {
+  bottom: 32px;
+  left: 32px;
+  transform: scaleY(-1);
+}
+
+/* Bottom-right — flip both */
+.br {
+  bottom: 32px;
+  right: 32px;
+  transform: scale(-1);
+}
+
+/* ── Name Heading ── */
 .name {
-    /* font-size: clamp(3rem, 10vw, 9rem); */
-    font-size: 2rem;
-    font-weight: 900;
-    text-transform: capitalize;
-    letter-spacing: -0.03em;
-    line-height: 1.1;
-    text-align: center;
-    z-index: 2;
-    font-family: 'Inter', 'Helvetica Neue', sans-serif;
-    white-space: nowrap;
-
-    /* Animated Gradient Text */
-    background: linear-gradient(90deg,
-            #ffffff 0%,
-            #00ffcc 25%,
-            #00d4ff 50%,
-            #bd00ff 75%,
-            #ffffff 100%);
-    background-size: 200% auto;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: gradientShift 3s ease-in-out infinite;
-
-    /* Text glow effect */
-    filter: drop-shadow(0 0 30px rgba(0, 255, 200, 0.4)) drop-shadow(0 0 60px rgba(0, 200, 255, 0.2));
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+  font-size: clamp(1.9rem, 5.5vw, 5.6rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
 }
 
-/* Gradient Character for Staggered Animation */
+/* ── Per-character gradient span ── */
 .gradientChar {
-    background: linear-gradient(90deg,
-            #ffffff 0%,
-            #00ffcc 25%,
-            #00d4ff 50%,
-            #bd00ff 75%,
-            #ffffff 100%);
-    background-size: 200% auto;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: gradientShift 3s ease-in-out infinite;
-}
-
-/* Role */
-.role {
-    margin-top: 30px;
-    font-size: clamp(0.6rem, 1vw, 0.85rem);
-    color: var(--primary, #00ff88);
-    text-transform: capitalize;
-    letter-spacing: 4px;
-    text-align: center;
-    z-index: 2;
-    line-height: 1.8;
-}
-
-/* Loading dot */
-.dot {
-    position: absolute;
-    left: 50%;
-    bottom: 30%;
-    transform: translateX(-50%);
-    width: 8px;
-    height: 8px;
-    background: var(--primary, #00ff88);
-    border-radius: 50%;
-    z-index: 2;
-    animation: pulse 1.2s ease-in-out infinite;
-    box-shadow: 0 0 10px var(--primary, #00ff88);
+  background: linear-gradient(
+    90deg,
+    #ffffff 0%,
+    var(--accent-cyan) 22%,
+    var(--accent-blue) 48%,
+    var(--accent-purple) 74%,
+    #ffffff 100%
+  );
+  background-size: 220% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 3.5s ease-in-out infinite;
+  filter: drop-shadow(0 0 20px rgba(0, 255, 200, 0.35))
+          drop-shadow(0 0 50px rgba(0, 200, 255, 0.18));
 }
 
 @keyframes gradientShift {
-    0% {
-        background-position: 0% center;
-    }
-
-    50% {
-        background-position: 100% center;
-    }
-
-    100% {
-        background-position: 0% center;
-    }
+  0%   { background-position: 0%   center; }
+  50%  { background-position: 100% center; }
+  100% { background-position: 0%   center; }
 }
 
-@keyframes pulse {
-
-    0%,
-    100% {
-        opacity: 1;
-        transform: translateX(-50%) scale(1);
-    }
-
-    50% {
-        opacity: 0.4;
-        transform: translateX(-50%) scale(1.8);
-    }
+/* ── Thin Divider Line ── */
+.divider {
+  margin-top: 22px;
+  width: clamp(200px, 40vw, 480px);
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--accent-cyan) 30%,
+    var(--accent-blue) 70%,
+    transparent 100%
+  );
+  transform-origin: left center;
+  z-index: 2;
+  box-shadow: 0 0 8px rgba(0, 255, 200, 0.4);
 }
 
-/* Mobile */
+/* ── Role Text ── */
+.role {
+  margin-top: 18px;
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-size: clamp(0.55rem, 1.1vw, 0.78rem);
+  font-weight: 400;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  text-align: center;
+  line-height: 2;
+  z-index: 2;
+  opacity: 0.85;
+}
+
+/* ── Bottom Progress Bar ── */
+.progressBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--accent-cyan) 0%,
+    var(--accent-blue) 50%,
+    var(--accent-purple) 100%
+  );
+  transform-origin: left center;
+  z-index: 6;
+  box-shadow: 0 0 10px var(--accent-cyan);
+}
+
+/* ── Pulsing Status Dot ── */
+.dot {
+  position: absolute;
+  left: 50%;
+  bottom: 28%;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 8px;
+  background: var(--primary);
+  border-radius: 50%;
+  z-index: 2;
+  animation: dotPulse 1.3s ease-in-out infinite;
+  box-shadow: 0 0 10px var(--primary), 0 0 20px rgba(0, 255, 136, 0.3);
+}
+
+@keyframes dotPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+    box-shadow: 0 0 10px var(--primary), 0 0 20px rgba(0, 255, 136, 0.3);
+  }
+  50% {
+    opacity: 0.45;
+    transform: translateX(-50%) scale(1.9);
+    box-shadow: 0 0 16px var(--primary), 0 0 32px rgba(0, 255, 136, 0.5);
+  }
+}
+
+/* ══════════════════════════════
+   Responsive — tablet / mobile
+   ══════════════════════════════ */
+
 @media (max-width: 768px) {
-    .name {
-        /* Use smaller font to fit full name on one line */
-        font-size: 2 rem;
-        white-space: normal;
-        /* Allow word-level wrapping only, NOT character breaking */
-        word-break: keep-all;
-        overflow-wrap: normal;
-        padding: 0 12px;
-        max-width: 100%;
-        line-height: 1.6;
-        filter: none;
-        /* Perf: Remove expensive glow on mobile */
-    }
+  .name {
+    font-size: clamp(1.4rem, 7vw, 2.4rem);
+    white-space: normal;
+    word-break: keep-all;
+    overflow-wrap: normal;
+    padding: 0 16px;
+    filter: none; /* drop expensive glow on mobile */
+  }
 
-    .role {
-        padding: 0 16px;
-        font-size: 0.5rem;
-        letter-spacing: 1.5px;
-        line-height: 1.6;
-    }
+  .gradientChar {
+    filter: none;
+  }
 
-    .introNav {
-        gap: 20px;
-        top: 20px;
-    }
+  .role {
+    font-size: clamp(0.42rem, 2vw, 0.6rem);
+    letter-spacing: 0.16em;
+    padding: 0 20px;
+  }
 
-    .introNav a {
-        font-size: 4rem;
-    }
+  .divider {
+    width: 70vw;
+  }
+
+  .bracket {
+    width: 20px;
+    height: 20px;
+  }
+
+  .tl { top: 16px; left: 16px; }
+  .tr { top: 16px; right: 16px; }
+  .bl { bottom: 16px; left: 16px; }
+  .br { bottom: 16px; right: 16px; }
 }
 
-/* Very small screens (iPhone SE, older devices) */
+/* ══════════════════════════════
+   Responsive — very small (≤375px)
+   ══════════════════════════════ */
+
 @media (max-width: 375px) {
-    .name {
-        /* Even smaller font for very small screens */
-        font-size: clamp(1.2rem, 6.5vw, 1.8rem);
-        letter-spacing: -0.03em;
-        padding: 0 8px;
-    }
+  .name {
+    font-size: clamp(1.1rem, 6.5vw, 1.6rem);
+    letter-spacing: -0.02em;
+    padding: 0 10px;
+  }
 
-    .role {
-        font-size: 0.42rem;
-        letter-spacing: 0.8px;
-        padding: 0 10px;
-    }
+  .role {
+    font-size: 0.4rem;
+    letter-spacing: 0.08em;
+  }
 
-    .dot {
-        bottom: 25%;
-    }
+  .dot {
+    bottom: 22%;
+  }
 }

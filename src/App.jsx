@@ -44,8 +44,6 @@ function App() {
                 {/* Defer loading of non-critical sections */}
                 <Suspense fallback={<div style={{ height: '100px' }}></div>}>
                     <About />
-                    {/* <AchievementCarousel /> */}
-                    <Experience />
                     <Skills />
                     <Projects />
                     <Contact />
