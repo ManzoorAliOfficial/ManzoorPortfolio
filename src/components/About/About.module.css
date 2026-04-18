@@ -1,7 +1,9 @@
 
 .about {
-     position: relative;
+ position: relative;
   overflow: hidden;
+  padding-top: 80px;
+  padding-bottom: 30px;
   background-color: #000000;
   background-image:
     radial-gradient(

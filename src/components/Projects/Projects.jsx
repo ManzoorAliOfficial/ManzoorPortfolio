@@ -158,7 +158,7 @@ function Projects() {
             disabled={startIndex === 0}
             aria-label="Previous projects"
           >
-            <ArrowLeft />
+            <ArrowLeft  />
           </button>
 
           <div className={styles.projectsContainer}>

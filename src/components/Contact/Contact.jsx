@@ -45,42 +45,37 @@ const MessageCircle = () => (
 const socialLinks = [
     {
         name: 'GitHub',
-        url: 'https://github.com/Karthigaiselvam-R-official',
+        url: 'https://github.com/ManzoorAliOfficial',
         icon: <Github />,
         color: 'primary'
     },
     {
         name: 'LinkedIn',
-        url: 'https://www.linkedin.com/in/karthigaiselvam-r-7b9197258/',
+        url: 'https://www.linkedin.com/in/manzoorali11',
         icon: <LinkedIn />,
         color: 'secondary'
     },
     {
         name: 'Email',
-        url: 'mailto:karthigaiselvamr.cs2022@gmail.com',
+        url: 'mailto:manzooralidashti11@gmail.com',
         icon: <Mail />,
         color: 'accent'
     },
 ]
-
 const languages = [
-    "வாங்க வேலை செய்வோம்",
-    "साथ मिलकर काम करें",
-    "Trabajemos Juntos",
-    "Travaillons Ensemble",
-    "Zusammenarbeiten!",
-    "一緒に働こう",
-    "함께 하자",
-    "Работаем вместе",
-    "一起工作吧",
-    "Lavoriamo Insieme",
-    "Vamos Trabalhar",
-    "Let's Work Together"
-]
-
+    "Let's Work Together",
+    "Let's Build Together",
+    "Let's Collaborate",
+    "Join Me in Building",
+    "Let's Make It Happen",
+    "Together We Can Build",
+    "Let's Create Together",
+    "Let's Innovate Together",
+    "Build the Future With Me"
+];
 const ENGLISH_INDEX = languages.length - 1
 const CYCLE_INTERVAL = 250
-const ENGLISH_PAUSE = 3000
+const ENGLISH_PAUSE = 300
 
 function Contact() {
     const ref = useRef(null)
@@ -90,25 +85,29 @@ function Contact() {
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [toast, setToast] = useState({ isVisible: false, message: '', type: 'success' })
     const [currentLangIndex, setCurrentLangIndex] = useState(0)
+useEffect(() => {
+    if (!isInView) return;
 
-    // Fixed: single stable interval, pause logic inside the callback
-    useEffect(() => {
-        if (!isInView) return
+    let timeoutId;
 
-        const getDelay = (index) =>
-            index === ENGLISH_INDEX ? ENGLISH_PAUSE : CYCLE_INTERVAL
+    const getDelay = (index) =>
+        index === ENGLISH_INDEX ? ENGLISH_PAUSE : CYCLE_INTERVAL;
 
-        let timeoutId = setTimeout(function tick() {
-            setCurrentLangIndex(prev => {
-                const next = (prev + 1) % languages.length
-                timeoutId = setTimeout(tick, getDelay(next))
-                return next
-            })
-        }, getDelay(currentLangIndex))
+    const tick = () => {
+        setCurrentLangIndex(prev => {
+            const next = (prev + 1) % languages.length;
 
-        return () => clearTimeout(timeoutId)
-    }, [isInView]) // ✅ Only depends on isInView — no stale closure issues
+            // schedule next tick based on NEXT index
+            timeoutId = setTimeout(tick, getDelay(next));
 
+            return next;
+        });
+    };
+
+    timeoutId = setTimeout(tick, getDelay(currentLangIndex));
+
+    return () => clearTimeout(timeoutId);
+}, [isInView, currentLangIndex]);
     const showToast = (message, type = 'success') => {
         setToast({ isVisible: true, message, type })
     }
@@ -207,7 +206,7 @@ function Contact() {
                                 <Mail />
                                 {/* Fixed: was pointing to wrong email with no mailto: */}
                                 <a href="mailto:karthigaiselvamr.cs2022@gmail.com">
-                                    karthigaiselvamr.cs2022@gmail.com
+                                    manzooralidashti11@gmail.com
                                 </a>
                             </div>
                         </div>
