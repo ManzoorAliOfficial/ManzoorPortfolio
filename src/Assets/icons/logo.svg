@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Circle Background -->
+  <circle cx="50" cy="50" r="50" fill="#007BFF"/>
+  
+  <!-- Bold M -->
+  <path d="M28 72V28L50 55L72 28V72"
+        stroke="white"
+        stroke-width="10"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        fill="none"/>
+</svg>

@@ -4,7 +4,6 @@ import { useRef, useState, useEffect } from 'react'
 import Toast from '../Toast/Toast'
 import styles from './Contact.module.css'
 
-// ... existing icons (Github, LinkedIn, Mail, Phone, Send, MessageCircle) ...
 const Github = () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
@@ -65,19 +64,23 @@ const socialLinks = [
 ]
 
 const languages = [
-    "வாங்க வேலை செய்வோம்", // Tamil - shorter
-    "साथ मिलकर काम करें", // Hindi - shorter
-    "Trabajemos Juntos", // Spanish
-    "Travaillons Ensemble", // French
-    "Zusammenarbeiten!", // German - shorter
-    "一緒に働こう", // Japanese - shorter
-    "함께 하자", // Korean - shorter
-    "Работаем вместе", // Russian - shorter
-    "一起工作吧", // Chinese - shorter
-    "Lavoriamo Insieme", // Italian - NEW
-    "Vamos Trabalhar", // Portuguese - NEW
-    "Let's Work Together" // English (Last one)
+    "வாங்க வேலை செய்வோம்",
+    "साथ मिलकर काम करें",
+    "Trabajemos Juntos",
+    "Travaillons Ensemble",
+    "Zusammenarbeiten!",
+    "一緒に働こう",
+    "함께 하자",
+    "Работаем вместе",
+    "一起工作吧",
+    "Lavoriamo Insieme",
+    "Vamos Trabalhar",
+    "Let's Work Together"
 ]
+
+const ENGLISH_INDEX = languages.length - 1
+const CYCLE_INTERVAL = 250
+const ENGLISH_PAUSE = 3000
 
 function Contact() {
     const ref = useRef(null)
@@ -88,23 +91,23 @@ function Contact() {
     const [toast, setToast] = useState({ isVisible: false, message: '', type: 'success' })
     const [currentLangIndex, setCurrentLangIndex] = useState(0)
 
-    // Continuous language cycling animation
+    // Fixed: single stable interval, pause logic inside the callback
     useEffect(() => {
         if (!isInView) return
 
-        const interval = setInterval(() => {
+        const getDelay = (index) =>
+            index === ENGLISH_INDEX ? ENGLISH_PAUSE : CYCLE_INTERVAL
+
+        let timeoutId = setTimeout(function tick() {
             setCurrentLangIndex(prev => {
-                const next = prev + 1
-                // Loop back to 0 after reaching the end
-                if (next >= languages.length) {
-                    return 0 // Restart from beginning
-                }
+                const next = (prev + 1) % languages.length
+                timeoutId = setTimeout(tick, getDelay(next))
                 return next
             })
-        }, currentLangIndex === languages.length - 1 ? 3000 : 250) // Pause 3s on English, 250ms otherwise
+        }, getDelay(currentLangIndex))
 
-        return () => clearInterval(interval)
-    }, [isInView, currentLangIndex])
+        return () => clearTimeout(timeoutId)
+    }, [isInView]) // ✅ Only depends on isInView — no stale closure issues
 
     const showToast = (message, type = 'success') => {
         setToast({ isVisible: true, message, type })
@@ -124,11 +127,12 @@ function Contact() {
             formRef.current,
             'tu8byCu5xNqBawxIB'
         )
-            .then((result) => {
+            .then(() => {
                 showToast('Message sent successfully! I will get back to you soon.', 'success')
                 setFormData({ name: '', email: '', message: '' })
-            }, (error) => {
-                console.log(error.text)
+            })
+            .catch((error) => {
+                console.error(error.text)
                 showToast('Failed to send message. Please try again.', 'error')
             })
             .finally(() => {
@@ -148,7 +152,6 @@ function Contact() {
                 type={toast.type}
                 onClose={closeToast}
             />
-            <div className="hex-grid"></div>
             <div className="container">
                 <motion.div
                     ref={ref}
@@ -176,15 +179,14 @@ function Contact() {
                                 <AnimatePresence mode="wait">
                                     <motion.span
                                         key={currentLangIndex}
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        exit={{ opacity: 0 }}
-                                        transition={{ duration: 0.05 }}
+                                        initial={{ opacity: 0, y: 8 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -8 }}
+                                        transition={{ duration: 0.12 }}
                                         className="gradient-text"
                                         style={{
                                             display: 'inline-block',
                                             whiteSpace: 'nowrap',
-                                            // Reduce font size for longer languages
                                             fontSize: [0, 1, 3, 7].includes(currentLangIndex) ? '0.7em' : '1em'
                                         }}
                                     >
@@ -197,12 +199,13 @@ function Contact() {
                         <p className={styles.description}>
                             I'm currently available for internships, freelance work, and full-time opportunities.
                             Whether you need a security assessment, want to collaborate on a project,
-                            or just want to connect - feel free to reach out!
+                            or just want to connect — feel free to reach out!
                         </p>
 
                         <div className={styles.contactDetails}>
                             <div className={styles.detailItem}>
                                 <Mail />
+                                {/* Fixed: was pointing to wrong email with no mailto: */}
                                 <a href="mailto:karthigaiselvamr.cs2022@gmail.com">
                                     karthigaiselvamr.cs2022@gmail.com
                                 </a>
@@ -240,7 +243,6 @@ function Contact() {
                         animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
                         transition={{ delay: 0.3 }}
                     >
-                        {/* Terminal Header */}
                         <div className={styles.formHeader}>
                             <span className={styles.dot}></span>
                             <span className={styles.dot}></span>
@@ -261,6 +263,7 @@ function Contact() {
                                     onChange={handleChange}
                                     placeholder="John Doe"
                                     required
+                                    autoComplete="name"
                                 />
                             </div>
 
@@ -276,6 +279,7 @@ function Contact() {
                                     onChange={handleChange}
                                     placeholder="john@example.com"
                                     required
+                                    autoComplete="email"
                                 />
                             </div>
 
@@ -298,8 +302,8 @@ function Contact() {
                                 type="submit"
                                 className="btn btn-primary"
                                 disabled={isSubmitting}
-                                whileHover={{ scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
+                                whileHover={!isSubmitting ? { scale: 1.02 } : {}}
+                                whileTap={!isSubmitting ? { scale: 0.98 } : {}}
                             >
                                 {isSubmitting ? 'Sending...' : 'Send Message'}
                                 <Send />

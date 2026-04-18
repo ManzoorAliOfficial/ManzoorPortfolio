@@ -219,3 +219,97 @@
   background: #00ff88;
   box-shadow: 0 0 12px #00ff88;
 }
+
+
+@keyframes lightSweep {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Container ── */
+.skillsContainer {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 40px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Header ── */
+.header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+/* ── Neon Tag ── */
+.neonTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(0, 255, 136, 0.08);
+  border: 2px solid rgba(0, 255, 136, 0.6);
+  padding: 12px 40px;
+  border-radius: 50px;
+  color: #00ff88;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  box-shadow: 0 0 25px rgba(0, 255, 136, 0.5);
+  margin-bottom: 24px;
+  animation: tagPulse 2.8s ease-in-out infinite;
+}
+
+/* Blinking dot inside tag */
+.tagDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #00ff88;
+  box-shadow: 0 0 8px #00ff88;
+  animation: dotBlink 1.4s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes tagPulse {
+  0%, 100% { box-shadow: 0 0 25px rgba(0, 255, 136, 0.5); }
+  50%       { box-shadow: 0 0 40px rgba(0, 255, 136, 0.8), 0 0 70px rgba(0, 255, 136, 0.3); }
+}
+
+@keyframes dotBlink {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.3; transform: scale(1.6); }
+}
+
+/* ── Animated Divider ── */
+.divider {
+  width: clamp(120px, 30vw, 360px);
+  height: 1px;
+  margin: 0 auto 28px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #00ffcc 30%,
+    #00d4ff 70%,
+    transparent 100%
+  );
+  transform-origin: left center;
+  box-shadow: 0 0 8px rgba(0, 255, 200, 0.45);
+}
+
+/* ── Title ── */
+.title {
+  font-size: clamp(28px, 4vw, 48px);
+  color: #fff;
+  margin: 0;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+/* ── Description ── */
+.description {
+  color: #ccc;
+  max-width: 730px;
+  margin: 24px auto 0;
+  line-height: 1.9;
+  font-size: 18px;
+}

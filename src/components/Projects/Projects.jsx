@@ -1,15 +1,10 @@
-import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect } from 'react';
+'use client'; // Required if using Next.js App Router
+
+import { motion, AnimatePresence, useInView } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
 import styles from './Projects.module.css';
-import { ProjectorIcon } from 'lucide-react';
 
-// SVG Icons
-const Shield = () => (
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00ff88" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-  </svg>
-);
-
+// SVG Icons (unchanged)
 const ArrowLeft = () => (
   <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#00ff88" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
     <path d="M15 18l-6-6 6-6" />
@@ -38,7 +33,7 @@ const GitFork = () => (
   </svg>
 );
 
-// 10 Demo Projects
+// Your 10 Demo Projects (unchanged)
 const demoProjects = [
   { id: 1, name: "E-Commerce Dashboard", description: "Modern admin dashboard with real-time analytics and inventory management.", image: "https://picsum.photos/id/1015/800/600", language: "React", stars: 124, forks: 32 },
   { id: 2, name: "AI Chat Application", description: "Intelligent chatbot with GPT integration and memory.", image: "https://picsum.photos/id/201/800/600", language: "Next.js", stars: 89, forks: 21 },
@@ -52,6 +47,34 @@ const demoProjects = [
   { id: 10, name: "Smart Parking System", description: "IoT-based real-time parking slot booking.", image: "https://picsum.photos/id/1074/800/600", language: "Python", stars: 81, forks: 24 },
 ];
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: (i = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.08, duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+  }),
+};
+
+const tagVariant = {
+  hidden: { opacity: 0, scale: 0.8, y: -10 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: "backOut" },
+  },
+};
+
+const dividerVariant = {
+  hidden: { scaleX: 0, opacity: 0 },
+  visible: {
+    scaleX: 1,
+    opacity: 1,
+    transition: { delay: 0.3, duration: 0.7, ease: "easeOut" },
+  },
+};
+
 function Projects() {
   const [projects] = useState(demoProjects);
   const [startIndex, setStartIndex] = useState(0);
@@ -60,56 +83,106 @@ function Projects() {
   const visibleCount = 3;
   const maxStartIndex = projects.length - visibleCount;
 
-  // Auto Scroll
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+
+  // Auto-play effect
   useEffect(() => {
     if (!isAutoPlaying) return;
+
     const interval = setInterval(() => {
       setStartIndex((prev) => (prev >= maxStartIndex ? 0 : prev + 1));
     }, 4000);
+
     return () => clearInterval(interval);
   }, [isAutoPlaying, maxStartIndex]);
 
   const handlePrev = () => {
     setIsAutoPlaying(false);
     setStartIndex((prev) => Math.max(0, prev - 1));
+    setTimeout(() => setIsAutoPlaying(true), 7000); // Resume after 7 seconds
   };
 
   const handleNext = () => {
     setIsAutoPlaying(false);
     setStartIndex((prev) => Math.min(maxStartIndex, prev + 1));
+    setTimeout(() => setIsAutoPlaying(true), 7000);
   };
 
   const visibleProjects = projects.slice(startIndex, startIndex + visibleCount);
 
   return (
-    <section id="projects" className={styles.projectsSection}>
+    <section id="projects" className={styles.projectsSection} ref={sectionRef}>
       <div className={styles.container}>
         {/* Neon Header */}
         <div className={styles.header}>
-          <motion.div className={styles.neonTag} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <ProjectorIcon/> PROJECTS
+          <motion.div
+            className={styles.neonTag}
+            variants={tagVariant}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+          >
+            <span className={styles.tagDot} />
+            Projects
           </motion.div>
+
+          <motion.div
+            className={styles.divider}
+            variants={dividerVariant}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+          />
+
+          <motion.p
+            className={styles.description}
+            variants={fadeUp}
+            custom={1}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+          >
+            I build fast and scalable web applications and have solid experience
+            in website cloning, having replicated multiple real-world projects
+            with pixel-perfect design.
+          </motion.p>
         </div>
 
-        <div className={styles.sliderWrapper}>
-          <button onClick={handlePrev} className={styles.navButton} disabled={startIndex === 0}>
+        {/* Slider */}
+        <div 
+          className={styles.sliderWrapper}
+          onMouseEnter={() => setIsAutoPlaying(false)}
+          onMouseLeave={() => setIsAutoPlaying(true)}
+        >
+          <button 
+            onClick={handlePrev} 
+            className={styles.navButton} 
+            disabled={startIndex === 0}
+            aria-label="Previous projects"
+          >
             <ArrowLeft />
           </button>
 
           <div className={styles.projectsContainer}>
-            <AnimatePresence mode="popLayout">
+            <AnimatePresence mode="wait">
               {visibleProjects.map((project, idx) => (
                 <motion.div
-                  key={`${project.id}-${startIndex}`}
+                  key={project.id}
                   className={styles.projectCard}
-                  initial={{ opacity: 0, y: 60 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 60 }}
-                  transition={{ duration: 0.5, delay: idx * 0.1 }}
-                  whileHover={{ scale: 1.05 }}
+                  initial={{ opacity: 0, y: 70, scale: 0.92 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -70, scale: 0.92 }}
+                  transition={{ duration: 0.55, delay: idx * 0.07 }}
+                  whileHover={{ 
+                    scale: 1.04, 
+                    transition: { duration: 0.35 } 
+                  }}
                 >
                   <div className={styles.imageWrapper}>
-                    <img src={project.image} alt={project.name} className={styles.projectImage} />
+                    <img 
+                      src={project.image} 
+                      alt={project.name} 
+                      className={styles.projectImage} 
+                      loading="lazy"
+                    />
                     <div className={styles.imageOverlay} />
                   </div>
 
@@ -124,14 +197,25 @@ function Projects() {
                       </span>
                     </div>
 
-                    <a href="#" className={styles.viewButton}>View Project →</a>
+                    <a 
+                      href="#" 
+                      className={styles.viewButton}
+                      aria-label={`View details of ${project.name}`}
+                    >
+                      View Project →
+                    </a>
                   </div>
                 </motion.div>
               ))}
             </AnimatePresence>
           </div>
 
-          <button onClick={handleNext} className={styles.navButton} disabled={startIndex >= maxStartIndex}>
+          <button 
+            onClick={handleNext} 
+            className={styles.navButton} 
+            disabled={startIndex >= maxStartIndex}
+            aria-label="Next projects"
+          >
             <ArrowRight />
           </button>
         </div>

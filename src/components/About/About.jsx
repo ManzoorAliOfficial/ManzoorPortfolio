@@ -3,7 +3,6 @@ import { useRef } from "react";
 import styles from "./About.module.css";
 
 // SVG Icons
-// SVG Icons
 const Target = () => (
   <svg
     width="24"
@@ -118,7 +117,6 @@ function About() {
 
   return (
     <section id="about" className={`section ${styles.about}`}>
-      <div className="hex-grid"></div>
       <div className="container">
         <motion.div
           ref={ref}

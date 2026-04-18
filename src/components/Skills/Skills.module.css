@@ -6,8 +6,6 @@
   padding: 90px 0;
   position: relative;
   overflow: hidden;
-
-  /* ── Same bg as Intro.jsx ── */
   background-color: #000000;
   background-image:
     radial-gradient(
@@ -71,6 +69,7 @@
 @keyframes lightSweep {
   to { transform: rotate(360deg); }
 }
+
 
 /* ── Container ── */
 .skillsContainer {

@@ -1,7 +1,6 @@
 .connect {
     position: relative;
     padding: 120px 0 160px;
-    background: var(--primary, #00ff88);
     text-align: center;
     overflow: hidden;
 }
@@ -15,8 +14,8 @@
 
 .star {
     position: absolute;
-    width: 4px;
-    height: 4px;
+    width: 114px;
+    height: 2224px;
     background: rgba(0, 0, 0, 0.15);
     border-radius: 50%;
     animation: twinkle 3s infinite ease-in-out;
