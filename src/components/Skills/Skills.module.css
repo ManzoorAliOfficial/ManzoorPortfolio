@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════
-   Skills.module.css — bg matches Intro.jsx exactly
+   Skills.module.css
    ═══════════════════════════════════════════════ */
 
 .skillsSection {
@@ -216,20 +216,46 @@
   transition: color 0.25s ease, letter-spacing 0.25s ease;
 }
 
-/* ── Responsive ── */
+
+/* Responsive Design */
 @media (max-width: 768px) {
+  .skillsSection {
+    padding: 80px 0;
+  }
+
+  .verticalLabel {
+    display: none;
+  }
+
+  .skillsCard {
+    padding: 50px 25px;
+  }
+
+  .title {
+    font-size: 16px;
+  }
+
+/* ── Description ── */
+.description {
+  color: #ccc;
+  max-width: 330px;
+   
+  font-size: 14px;
+}
   .skillsGrid {
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
     gap: 25px;
   }
 
   .iconWrapper {
-    width: 80px;
-    height: 80px;
-    animation: none; /* disable float on mobile for perf */
+    width: 85px;
+    height: 85px;
   }
+}
 
-  .description {
-    font-size: 16px;
+@media (max-width: 480px) {
+  .skillsGrid {
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
   }
+  
 }

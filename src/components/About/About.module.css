@@ -467,7 +467,6 @@
     .expBadge {
         right: 0;
         bottom: -80px;
-        /* Push below terminal content to fix overlap */
     }
 
     .terminalWrapper {

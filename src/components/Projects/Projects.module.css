@@ -2,11 +2,7 @@
   padding: 80px 0;
   position: relative;
   overflow: hidden;
-
-  /* ── Same bg as Intro.jsx ── */
   background-color: #000000;
-
-  /* Ambient radial glow — centre me subtle cyan/blue, bilkul Intro jaisa */
   background-image:
     radial-gradient(
       ellipse 70% 55% at 50% 50%,
@@ -14,7 +10,6 @@
       rgba(0, 200, 255, 0.03) 45%,
       transparent 70%
     ),
-    /* Edge vignette */
     radial-gradient(
       ellipse at center,
       transparent 40%,
@@ -23,7 +18,6 @@
     );
 }
 
-/* ── Vertical grid lines overlay (same as Intro) ── */
 .projectsSection::before {
   content: "";
   position: absolute;
@@ -39,7 +33,6 @@
   );
 }
 
-/* ── Slow light-sweep (same conic animation as Intro) ── */
 .projectsSection::after {
   content: "";
   position: absolute;
@@ -62,7 +55,7 @@
   to { transform: rotate(360deg); }
 }
 
-/* ── All children sit above the bg effects ── */
+/* ── Container ── */
 .container {
   max-width: 1350px;
   margin: 0 auto;
@@ -71,11 +64,13 @@
   z-index: 1;
 }
 
+/* ── Header ── */
 .header {
   text-align: center;
   margin-bottom: 90px;
 }
 
+/* ── Neon Tag ── */
 .neonTag {
   display: inline-flex;
   align-items: center;
@@ -91,175 +86,9 @@
   text-transform: uppercase;
   box-shadow: 0 0 25px rgba(0, 255, 136, 0.4);
   margin-bottom: 20px;
-}
-
-.title {
-  font-size: 48px;
-  color: white;
-  margin: 0;
-}
-
-/* ── Slider ── */
-.sliderWrapper {
-  display: flex;
-  align-items: center;
-  gap: 25px;
-}
-
-.navButton {
-  width: 65px;
-  height: 65px;
-  background: rgba(0, 255, 136, 0.08);
-  border: 2px solid rgba(0, 255, 136, 0.6);
-  border-radius: 50%;
-  color: #00ff88;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.4s ease;
-}
-
-.navButton:hover {
-  background: rgba(0, 255, 136, 0.2);
-  box-shadow: 0 0 30px rgba(0, 255, 136, 0.6);
-}
-
-.projectsContainer {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 28px;
-  flex: 1;
-}
-
-.projectCard {
-  background: #111;
-  border-radius: 20px;
-  overflow: hidden;
-  border: 2px solid rgba(0, 255, 136, 0.5);
-  box-shadow:
-    0 0 25px rgba(0, 255, 136, 0.5),
-    0 5px 15px rgba(0, 0, 0, 0.3);
-  transition: all 0.4s ease;
-}
-
-.projectCard:hover {
-  border: 2px solid rgba(0, 255, 136, 0.9);
-  box-shadow:
-    0 0 40px rgba(0, 255, 136, 0.8),
-    0 20px 45px rgba(0, 255, 136, 0.4),
-    0 10px 25px rgba(0, 0, 0, 0.5);
-  transform: translateY(-10px);
-}
-
-.imageWrapper {
-  height: 260px;
-  position: relative;
-}
-
-.projectImage {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.imageOverlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
-}
-
-.cardContent {
-  padding: 26px;
-}
-
-.projectTitle {
-  font-size: 23px;
-  color: white;
-  margin-bottom: 10px;
-}
-
-.projectDescription {
-  color: #ccc;
-  line-height: 1.55;
-  margin-bottom: 20px;
-}
-
-.meta {
-  display: flex;
-  justify-content: space-between;
-  color: #aaa;
-  font-size: 15px;
-  margin-bottom: 22px;
-}
-
-.viewButton {
-  color: #00ff88;
-  font-weight: 600;
-}
-
-/* ── Dots ── */
-.dotsContainer {
-  display: flex;
-  justify-content: center;
-  gap: 14px;
-  margin-top: 60px;
-}
-
-.dot {
-  width: 13px;
-  height: 13px;
-  border-radius: 50%;
-  background: #333;
-  border: none;
-  cursor: pointer;
-}
-
-.activeDot {
-  background: #00ff88;
-  box-shadow: 0 0 12px #00ff88;
-}
-
-
-@keyframes lightSweep {
-  to { transform: rotate(360deg); }
-}
-
-/* ── Container ── */
-.skillsContainer {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 40px;
-  position: relative;
-  z-index: 1;
-}
-
-/* ── Header ── */
-.header {
-  text-align: center;
-  margin-bottom: 80px;
-}
-
-/* ── Neon Tag ── */
-.neonTag {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  background: rgba(0, 255, 136, 0.08);
-  border: 2px solid rgba(0, 255, 136, 0.6);
-  padding: 12px 40px;
-  border-radius: 50px;
-  color: #00ff88;
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  box-shadow: 0 0 25px rgba(0, 255, 136, 0.5);
-  margin-bottom: 24px;
   animation: tagPulse 2.8s ease-in-out infinite;
 }
 
-/* Blinking dot inside tag */
 .tagDot {
   width: 8px;
   height: 8px;
@@ -296,7 +125,6 @@
   box-shadow: 0 0 8px rgba(0, 255, 200, 0.45);
 }
 
-/* ── Title ── */
 .title {
   font-size: clamp(28px, 4vw, 48px);
   color: #fff;
@@ -305,11 +133,264 @@
   letter-spacing: -0.02em;
 }
 
-/* ── Description ── */
 .description {
   color: #ccc;
   max-width: 730px;
   margin: 24px auto 0;
   line-height: 1.9;
   font-size: 18px;
+}
+
+/* ── Slider ── */
+.sliderWrapper {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.navButton {
+  width: 65px;
+  height: 65px;
+  min-width: 65px;
+  background: rgba(0, 255, 136, 0.08);
+  border: 2px solid rgba(0, 255, 136, 0.6);
+  border-radius: 50%;
+  color: #00ff88;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.4s ease;
+}
+
+.navButton:hover:not(:disabled) {
+  background: rgba(0, 255, 136, 0.2);
+  box-shadow: 0 0 30px rgba(0, 255, 136, 0.6);
+}
+
+.navButton:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.projectsContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  flex: 1;
+}
+
+.projectsContainerMobile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+/* ── Project Card ── */
+.projectCard {
+  background: #111;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 2px solid rgba(0, 255, 136, 0.5);
+  box-shadow:
+    0 0 25px rgba(0, 255, 136, 0.5),
+    0 5px 15px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s ease;
+}
+
+.projectCard:hover {
+  border: 2px solid rgba(0, 255, 136, 0.9);
+  box-shadow:
+    0 0 40px rgba(0, 255, 136, 0.8),
+    0 20px 45px rgba(0, 255, 136, 0.4),
+    0 10px 25px rgba(0, 0, 0, 0.5);
+  transform: translateY(-10px);
+}
+
+/* ── Mobile Card: fixed 280px width ── */
+.projectCardMobile {
+  width: 280px;
+  min-width: 280px;
+  max-width: 280px;
+}
+
+.imageWrapper {
+  height: 260px;
+  position: relative;
+}
+
+.projectImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
+}
+
+.cardContent {
+  padding: 26px;
+}
+
+.projectTitle {
+  font-size: 23px;
+  color: white;
+  margin-bottom: 10px;
+  margin-top: 0;
+}
+
+.projectDescription {
+  color: #ccc;
+  line-height: 1.55;
+  margin-bottom: 20px;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #aaa;
+  font-size: 15px;
+  margin-bottom: 22px;
+}
+
+.language {
+  font-size: 13px;
+  color: #00ff88;
+  background: rgba(0, 255, 136, 0.1);
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 255, 136, 0.3);
+}
+
+.stats {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #aaa;
+  font-size: 13px;
+}
+
+.viewButton {
+  color: #00ff88;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 15px;
+  transition: opacity 0.2s;
+}
+
+.viewButton:hover {
+  opacity: 0.75;
+}
+
+/* ── Dots ── */
+.dotsContainer {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 60px;
+  flex-wrap: wrap;
+}
+
+.dot {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #333;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s, box-shadow 0.3s;
+  padding: 0;
+}
+
+.activeDot {
+  background: #00ff88;
+  box-shadow: 0 0 12px #00ff88;
+}
+
+/* ═══════════════════════════════════════
+   MOBILE RESPONSIVE  (≤ 768px)
+═══════════════════════════════════════ */
+@media (max-width: 768px) {
+  .projectsSection {
+    padding: 60px 0;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+
+  .header {
+    margin-bottom: 50px;
+  }
+
+  .neonTag {
+    font-size: 13px;
+    padding: 10px 22px;
+    letter-spacing: 2px;
+  }
+
+  .description {
+    font-size: 15px;
+    padding: 0 8px;
+    margin-top: 16px;
+  }
+
+  .sliderWrapper {
+    gap: 12px;
+    justify-content: center;
+  }
+
+  .navButton {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+  }
+
+  .imageWrapper {
+    height: 180px;
+  }
+
+  .projectTitle {
+    font-size: 18px;
+  }
+
+  .projectDescription {
+    font-size: 14px;
+  }
+
+  .cardContent {
+    padding: 18px;
+  }
+
+  .dotsContainer {
+    margin-top: 36px;
+    gap: 10px;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+/* ═══════════════════════════════════════
+   SMALL MOBILE  (≤ 400px)
+═══════════════════════════════════════ */
+@media (max-width: 400px) {
+  .navButton {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+  }
+
+  .projectCardMobile {
+    width: 260px;
+    min-width: 260px;
+    max-width: 260px;
+  }
 }

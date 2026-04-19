@@ -36,9 +36,9 @@ const footerLinks = [
 ];
 
 const socialIcons = [
-  { icon: <Github />, url: 'https://github.com/Karthigaiselvam-R-official', label: 'GitHub' },
-  { icon: <LinkedIn />, url: 'https://www.linkedin.com/in/karthigaiselvam-r-7b9197258/', label: 'LinkedIn' },
-  { icon: <Mail />, url: 'mailto:karthigaiselvamr.cs2022@gmail.com', label: 'Email' },
+  { icon: <Github />, url: 'https://github.com/ManzoorAliOfficial', label: 'GitHub' },
+  { icon: <LinkedIn />, url: 'https://www.linkedin.com/in/manzoorali11', label: 'LinkedIn' },
+  { icon: <Mail />, url: 'mailto:manzooralidashti11@gmail.com', label: 'Email' },
 ];
 
 function Footer() {
@@ -54,11 +54,11 @@ function Footer() {
     Manzoor <span className={styles.logoAccent}>Ahmed</span>
   </a>
   
-  <p className={styles.tagline}>
-    Software Engineering Student &amp; Frontend Developer from Karachi, Pakistan.<br />
-    Specializing in UI/UX Design and modern web technologies.<br />
-    Currently working as a freelancer while pursuing my Bachelor's degree (Expected 2027).
-  </p>
+ <p className={styles.tagline}>
+  Software Engineering  and Frontend Developer.<br />
+  Experienced in website cloning and modern web development.<br />
+  Specializing in UI/UX design while pursuing a Bachelor's degree (expected 2027).
+</p>
 </div>
           {/* Quick Links */}
           <nav className={styles.footerNav}>
