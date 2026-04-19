@@ -109,8 +109,6 @@ const highlights = [
   },
 ];
 
-
-
 function About() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -169,7 +167,6 @@ function About() {
   </div>
 </div>
 
-
             {/* Experience Badge */}
             <motion.div
               className={styles.expBadge}
@@ -179,7 +176,7 @@ function About() {
               }
               transition={{ delay: 0.6 }}
             >
-              <span className={styles.expNumber}>3+</span>
+              <span className={styles.expNumber}>1+</span>
               <span className={styles.expLabel}>
                 Industry
                 <br />
@@ -253,7 +250,7 @@ function About() {
               }}
             >
               <motion.a
-                href="https://drive.google.com/file/d/1lXWJv1ttyhQlEEeKlDJYr1b7A33tFwye/view"
+                href="https://drive.google.com/file/d/1d3ZTV7r849CXZ0r4WTI1oTuxcHCq56mt/view?usp=sharing"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-primary"

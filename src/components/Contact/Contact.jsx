@@ -260,7 +260,7 @@ useEffect(() => {
                                     name="name"
                                     value={formData.name}
                                     onChange={handleChange}
-                                    placeholder="John Doe"
+                                    placeholder="Lakho"
                                     required
                                     autoComplete="name"
                                 />
@@ -276,7 +276,7 @@ useEffect(() => {
                                     name="email"
                                     value={formData.email}
                                     onChange={handleChange}
-                                    placeholder="john@example.com"
+                                    placeholder="lakho@example.com"
                                     required
                                     autoComplete="email"
                                 />

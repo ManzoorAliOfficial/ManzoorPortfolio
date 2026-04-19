@@ -51,7 +51,7 @@ function Footer() {
   {/* Brand */}
 <div className={styles.footerBrand}>
   <a href="#home" className={styles.logo}>
-    Manzoor <span className={styles.logoAccent}>Ahmed</span>
+    Manzoor <span className={styles.logoAccent}>Ali</span>
   </a>
   
  <p className={styles.tagline}>
