@@ -3,6 +3,11 @@
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 import styles from './Projects.module.css';
+import SmartInvoices from '../../Assets/images/smartInvoices.png';
+import HookMaster from '../../Assets/images/HookMaster.png';
+import Genex from '../../Assets/images/genex.jpg';
+import KhanCafe from '../../Assets/images/Khancaferesturent.jpg';
+import RealState from '../../Assets/images/RealState.png';
 
 const ArrowLeft = () => (
   <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#00ff88" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
@@ -33,16 +38,56 @@ const GitFork = () => (
 );
 
 const demoProjects = [
-  { id: 1, name: "E-Commerce Dashboard", description: "Modern admin dashboard with real-time analytics and inventory management.", image: "https://picsum.photos/id/1015/800/600", language: "React", stars: 124, forks: 32 },
-  { id: 2, name: "AI Chat Application", description: "Intelligent chatbot with GPT integration and memory.", image: "https://picsum.photos/id/201/800/600", language: "Next.js", stars: 89, forks: 21 },
-  { id: 3, name: "TaskFlow - Kanban Board", description: "Drag & drop project management with team collaboration.", image: "https://picsum.photos/id/237/800/600", language: "TypeScript", stars: 156, forks: 45 },
-  { id: 4, name: "Crypto Portfolio Tracker", description: "Real-time cryptocurrency tracking with price alerts.", image: "https://picsum.photos/id/870/800/600", language: "React", stars: 67, forks: 18 },
-  { id: 5, name: "Fitness Tracker App", description: "Complete workout planner and progress tracking.", image: "https://picsum.photos/id/1018/800/600", language: "Flutter", stars: 98, forks: 27 },
-  { id: 6, name: "Restaurant Booking System", description: "Online table reservation with live availability.", image: "https://picsum.photos/id/106/800/600", language: "Node.js", stars: 74, forks: 19 },
-  { id: 7, name: "Weather & Climate App", description: "Beautiful weather app with 10-day forecast.", image: "https://picsum.photos/id/1016/800/600", language: "JavaScript", stars: 112, forks: 34 },
-  { id: 8, name: "Social Media Dashboard", description: "Unified analytics for multiple social platforms.", image: "https://picsum.photos/id/133/800/600", language: "Vue.js", stars: 65, forks: 22 },
-  { id: 9, name: "Online Learning Platform", description: "Interactive course platform with video lessons and quizzes.", image: "https://picsum.photos/id/201/800/600", language: "Next.js", stars: 143, forks: 51 },
-  { id: 10, name: "Smart Parking System", description: "IoT-based real-time parking slot booking.", image: "https://picsum.photos/id/1074/800/600", language: "Python", stars: 81, forks: 24 },
+  {
+    id: 1,
+    name: "SmartInvoices",
+    description: "Modern invoicing app with real-time analytics and inventory management.",
+    image: SmartInvoices,
+    link: "#",
+    language: "React",
+    stars: 14,
+    forks: 32,
+  },
+  {
+    id: 2,
+    name: "HookMaster",
+    description: "A utility library for custom React hooks with live documentation and examples.",
+    image: HookMaster,
+    link: "#",
+    language: "HTML, CSS, JS",
+    stars: 89,
+    forks: 21,
+  },
+  {
+    id: 3,
+    name: "Genex Digital Solutions",
+    description: "Corporate digital agency website showcasing services and portfolio.",
+    image: Genex,
+    link: "#",
+    language: "HTML, CSS, JS",
+    stars: 156,
+    forks: 45,
+  },
+  {
+    id: 4,
+    name: "Khan Cafe",
+    description: "Restaurant website for Khan Cafe with menu, gallery, and contact section.",
+    image: KhanCafe,
+    link: "#",
+    language: "HTML",
+    stars: 67,
+    forks: 18,
+  },
+  {
+    id: 5,
+    name: "RealState",
+    description: "Real estate listing website with property search and detail pages.",
+    image: RealState,
+    link: "#",
+    language: "HTML",
+    stars: 58,
+    forks: 27,
+  },
 ];
 
 const fadeUp = {
@@ -121,6 +166,7 @@ function Projects() {
   return (
     <section id="projects" className={styles.projectsSection} ref={sectionRef}>
       <div className={styles.container}>
+
         {/* Header */}
         <div className={styles.header}>
           <motion.div
@@ -178,10 +224,7 @@ function Projects() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -70, scale: 0.92 }}
                   transition={{ duration: 0.55, delay: idx * 0.07 }}
-                  whileHover={{
-                    scale: 1.04,
-                    transition: { duration: 0.35 },
-                  }}
+                  whileHover={{ scale: 1.04, transition: { duration: 0.35 } }}
                 >
                   <div className={styles.imageWrapper}>
                     <img
@@ -205,13 +248,14 @@ function Projects() {
                     </div>
 
                     <a
-                      href="#"
+                      href={project.link}
                       className={styles.viewButton}
                       aria-label={`View details of ${project.name}`}
                     >
                       View Project →
                     </a>
                   </div>
+
                 </motion.div>
               ))}
             </AnimatePresence>
@@ -247,6 +291,7 @@ function Projects() {
             );
           })}
         </div>
+
       </div>
     </section>
   );
