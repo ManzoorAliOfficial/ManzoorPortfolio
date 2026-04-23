@@ -8,6 +8,8 @@ import HookMaster from '../../Assets/images/HookMaster.png';
 import Genex from '../../Assets/images/genex.jpg';
 import KhanCafe from '../../Assets/images/Khancaferesturent.jpg';
 import RealState from '../../Assets/images/RealState.png';
+import  HeptaWebsite from '../../Assets/images/HeptaWebsite.png'
+import { ArrowBigRight } from 'lucide-react';
 
 const ArrowLeft = () => (
   <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#00ff88" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
@@ -38,22 +40,25 @@ const GitFork = () => (
 );
 
 const demoProjects = [
+
   {
     id: 1,
     name: "SmartInvoices",
     description: "Modern invoicing app with real-time analytics and inventory management.",
     image: SmartInvoices,
-    link: "#",
+    link: "https://smart-invoice.pages.dev/dashboard",
     language: "React",
     stars: 14,
     forks: 32,
   },
+  
+
   {
     id: 2,
     name: "HookMaster",
     description: "A utility library for custom React hooks with live documentation and examples.",
     image: HookMaster,
-    link: "#",
+    link: "https://hookmaster-io-s8c2-git-main-manzooraliis-projects.vercel.app/",
     language: "HTML, CSS, JS",
     stars: 89,
     forks: 21,
@@ -63,7 +68,7 @@ const demoProjects = [
     name: "Genex Digital Solutions",
     description: "Corporate digital agency website showcasing services and portfolio.",
     image: Genex,
-    link: "#",
+    link: "http://genex-eta.vercel.app/",
     language: "HTML, CSS, JS",
     stars: 156,
     forks: 45,
@@ -73,7 +78,7 @@ const demoProjects = [
     name: "Khan Cafe",
     description: "Restaurant website for Khan Cafe with menu, gallery, and contact section.",
     image: KhanCafe,
-    link: "#",
+    link: "https://timely-cascaron-2499fd.netlify.app/",
     language: "HTML",
     stars: 67,
     forks: 18,
@@ -83,11 +88,21 @@ const demoProjects = [
     name: "RealState",
     description: "Real estate listing website with property search and detail pages.",
     image: RealState,
-    link: "#",
+    link: "https://first-project-mk.netlify.app/",
     language: "HTML",
     stars: 58,
     forks: 27,
   },
+  {
+  id: 6,
+  name: "Hepta Websites",
+description: "Modern travel & hotel booking site with responsive UI and smooth animations.",  
+  image: HeptaWebsite,
+  link: "https://heptaa-websites.netlify.app/",
+  language: "HTML, CSS, JavaScript",
+  stars: 10,
+  forks: 18,
+},
 ];
 
 const fadeUp = {
@@ -247,13 +262,14 @@ function Projects() {
                       </span>
                     </div>
 
-                    <a
-                      href={project.link}
-                      className={styles.viewButton}
-                      aria-label={`View details of ${project.name}`}
-                    >
-                      View Project →
-                    </a>
+                  <a
+  href={project.link}
+  
+  className={styles.viewButton}
+  aria-label={`View project ${project.name}`}
+>
+  View Project <ArrowBigRight />
+</a>
                   </div>
 
                 </motion.div>

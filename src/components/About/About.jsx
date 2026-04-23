@@ -150,7 +150,7 @@ function About() {
       <span className={styles.outputKey}>Role:</span> Software Engineer<br />
       <span className={styles.outputKey}>Education:</span> BS SE<br />
       <span className={styles.outputKey}>University:</span>The Islamia University Of Bahawalpur<br />
-      <span className={styles.outputKey}>CGPA:</span> 3.4 / 4<br />
+      <span className={styles.outputKey}>CGPA:</span> 3.2 / 4<br />
       <span className={styles.outputKey}>Batch:</span> 2023 - 2027<br />
     </span>
     <br />
