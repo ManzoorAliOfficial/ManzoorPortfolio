@@ -1,8 +1,8 @@
-import { useState, useEffect, lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
+import styles from './App.module.css'
+import Hero from './components/Hero/Hero'
 import Intro from './components/Intro/Intro'
 import Navbar from './components/Navbar/Navbar'
-import Hero from './components/Hero/Hero'
-import styles from './App.module.css'
 
 // Lazy Load heavy components below the fold
 const About = lazy(() => import('./components/About/About'))

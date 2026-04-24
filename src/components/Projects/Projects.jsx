@@ -1,15 +1,15 @@
 'use client';
 
-import { motion, AnimatePresence, useInView } from 'framer-motion';
-import { useState, useEffect, useRef } from 'react';
-import styles from './Projects.module.css';
-import SmartInvoices from '../../Assets/images/smartInvoices.png';
-import HookMaster from '../../Assets/images/HookMaster.png';
+import { AnimatePresence, motion, useInView } from 'framer-motion';
+import { ArrowBigRight } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 import Genex from '../../Assets/images/genex.jpg';
+import HeptaWebsite from '../../Assets/images/HeptaWebsite.png';
+import HookMaster from '../../Assets/images/HookMaster.png';
 import KhanCafe from '../../Assets/images/Khancaferesturent.jpg';
 import RealState from '../../Assets/images/RealState.png';
-import  HeptaWebsite from '../../Assets/images/HeptaWebsite.png'
-import { ArrowBigRight } from 'lucide-react';
+import SmartInvoices from '../../Assets/images/smartInvoices.png';
+import styles from './Projects.module.css';
 
 const ArrowLeft = () => (
   <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#00ff88" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
