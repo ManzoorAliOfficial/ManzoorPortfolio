@@ -5,7 +5,7 @@ import { ArrowBigRight } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import Genex from '../../Assets/images/genex.jpg';
 import HeptaWebsite from '../../Assets/images/HeptaWebsite.png';
-import HookMaster from '../../Assets/images/HookMaster.png';
+import Hookmaster from '../../Assets/images/hookMaster.png';
 import KhanCafe from '../../Assets/images/Khancaferesturent.jpg';
 import RealState from '../../Assets/images/RealState.png';
 import SmartInvoices from '../../Assets/images/smartInvoices.png';
@@ -57,7 +57,7 @@ const demoProjects = [
     id: 2,
     name: "HookMaster",
     description: "A utility library for custom React hooks with live documentation and examples.",
-    image: HookMaster,
+    image: Hookmaster,
     link: "https://hookmaster-io-s8c2-git-main-manzooraliis-projects.vercel.app/",
     language: "HTML, CSS, JS",
     stars: 89,
