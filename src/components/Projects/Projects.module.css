@@ -125,14 +125,6 @@
   box-shadow: 0 0 8px rgba(0, 255, 200, 0.45);
 }
 
-.title {
-  font-size: clamp(28px, 4vw, 48px);
-  color: #fff;
-  margin: 0;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-}
-
 .description {
   color: #ccc;
   max-width: 730px;
@@ -161,37 +153,6 @@
   justify-content: center;
   cursor: pointer;
   transition: all 0.4s ease;
-}
-
-.viewButton {
-  display: inline-flex;
-  align-items: center;
-  gap: 2px;
-  padding: 10px 18px;
-  background: #111;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 500;
-  border-radius: 12px;
-  text-decoration: none;
-  border: 1px solid #333;
-  transition: all 0.3s ease;
-}
-
-.viewButton:hover {
-  background: #fff;
-
-  color: #111;
-  border-color: #111;
-  transform: translateY(-2px);
-}
-
-.viewButton svg {
-  transition: transform 0.3s ease;
-}
-
-.viewButton:hover svg {
-  transform: translateX(4px);
 }
 
 .navButton:hover:not(:disabled) {
@@ -239,22 +200,28 @@
   transform: translateY(-10px);
 }
 
-/* ── Mobile Card: fixed 280px width ── */
 .projectCardMobile {
   width: 280px;
   min-width: 280px;
   max-width: 280px;
 }
 
+/* ── Image ── */
 .imageWrapper {
-  height: 260px;
+  height: 200px;
   position: relative;
+  overflow: hidden;
 }
 
 .projectImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.projectCard:hover .projectImage {
+  transform: scale(1.05);
 }
 
 .imageOverlay {
@@ -263,59 +230,168 @@
   background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
 }
 
+/* ── Tech stack badge strip — top-right of image ── */
+.techBadge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.techLogo {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: rgba(10, 10, 15, 0.85);
+  border: 1px solid rgba(0, 255, 136, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  flex-shrink: 0;
+  transition: border-color 0.25s ease, transform 0.25s ease;
+}
+
+.techLogo:hover {
+  border-color: rgba(0, 255, 136, 0.6);
+  transform: translateY(-2px) scale(1.1);
+}
+
+/* ── Card Content ── */
 .cardContent {
-  padding: 26px;
+  padding: 22px 24px 24px;
 }
 
 .projectTitle {
-  font-size: 23px;
+  font-size: 20px;
   color: white;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   margin-top: 0;
+  font-weight: 700;
 }
 
 .projectDescription {
-  color: #ccc;
-  line-height: 1.55;
-  margin-bottom: 20px;
+  color: #aaa;
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 16px;
 }
 
 .meta {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #aaa;
-  font-size: 15px;
-  margin-bottom: 22px;
+  margin-bottom: 18px;
 }
 
 .language {
-  font-size: 13px;
+  font-size: 12px;
   color: #00ff88;
   background: rgba(0, 255, 136, 0.1);
   padding: 3px 10px;
   border-radius: 20px;
   border: 1px solid rgba(0, 255, 136, 0.3);
+  font-weight: 600;
 }
 
 .stats {
   display: flex;
   align-items: center;
   gap: 5px;
-  color: #aaa;
+  color: #888;
   font-size: 13px;
 }
 
-.viewButton {
-  color: #00ff88;
-  font-weight: 600;
-  text-decoration: none;
-  font-size: 15px;
-  transition: opacity 0.2s;
+/* ── Action Buttons ── */
+.actions {
+  display: flex;
+  gap: 10px;
 }
 
-.viewButton:hover {
-  opacity: 0.75;
+/* GitHub button */
+.btnGithub {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 9px 0;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  color: #ccc;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  letter-spacing: 0.3px;
+}
+
+.btnGithub:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* Live Demo button */
+.btnLive {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 0;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 255, 136, 0.35);
+  background: rgba(0, 255, 136, 0.07);
+  color: #00ff88;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  letter-spacing: 0.3px;
+  position: relative;
+  overflow: hidden;
+}
+
+.btnLive::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), transparent);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.btnLive:hover {
+  background: rgba(0, 255, 136, 0.14);
+  border-color: rgba(0, 255, 136, 0.7);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 18px rgba(0, 255, 136, 0.3);
+}
+
+.btnLive:hover::before { opacity: 1; }
+
+/* Blinking live dot */
+.liveDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #00ff88;
+  flex-shrink: 0;
+  animation: liveBlink 1.4s ease-in-out infinite;
+}
+
+@keyframes liveBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.2; }
 }
 
 /* ── Dots ── */
@@ -347,81 +423,26 @@
    MOBILE RESPONSIVE  (≤ 768px)
 ═══════════════════════════════════════ */
 @media (max-width: 768px) {
-  .projectsSection {
-    padding: 60px 0;
-  }
-
-  .container {
-    padding: 0 16px;
-  }
-
-  .header {
-    margin-bottom: 50px;
-  }
-
-  .neonTag {
-    font-size: 13px;
-    padding: 10px 22px;
-    letter-spacing: 2px;
-  }
-
-  .description {
-    font-size: 15px;
-    padding: 0 8px;
-    margin-top: 16px;
-  }
-
-  .sliderWrapper {
-    gap: 12px;
-    justify-content: center;
-  }
-
-  .navButton {
-    width: 44px;
-    height: 44px;
-    min-width: 44px;
-  }
-
-  .imageWrapper {
-    height: 180px;
-  }
-
-  .projectTitle {
-    font-size: 18px;
-  }
-
-  .projectDescription {
-    font-size: 14px;
-  }
-
-  .cardContent {
-    padding: 18px;
-  }
-
-  .dotsContainer {
-    margin-top: 36px;
-    gap: 10px;
-  }
-
-  .dot {
-    width: 10px;
-    height: 10px;
-  }
+  .projectsSection { padding: 60px 0; }
+  .container { padding: 0 16px; }
+  .header { margin-bottom: 50px; }
+  .neonTag { font-size: 13px; padding: 10px 22px; letter-spacing: 2px; }
+  .description { font-size: 15px; padding: 0 8px; margin-top: 16px; }
+  .sliderWrapper { gap: 12px; justify-content: center; }
+  .navButton { width: 44px; height: 44px; min-width: 44px; }
+  .imageWrapper { height: 160px; }
+  .projectTitle { font-size: 17px; }
+  .projectDescription { font-size: 13px; }
+  .cardContent { padding: 16px 18px 18px; }
+  .dotsContainer { margin-top: 36px; gap: 10px; }
+  .dot { width: 10px; height: 10px; }
+  .btnGithub, .btnLive { font-size: 11px; padding: 8px 0; }
 }
 
 /* ═══════════════════════════════════════
    SMALL MOBILE  (≤ 400px)
 ═══════════════════════════════════════ */
 @media (max-width: 400px) {
-  .navButton {
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
-  }
-
-  .projectCardMobile {
-    width: 260px;
-    min-width: 260px;
-    max-width: 260px;
-  }
+  .navButton { width: 36px; height: 36px; min-width: 36px; }
+  .projectCardMobile { width: 260px; min-width: 260px; max-width: 260px; }
 }

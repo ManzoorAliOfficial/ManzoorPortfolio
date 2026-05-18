@@ -15,14 +15,11 @@ function Navbar() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
     useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 50)
-        }
+        const handleScroll = () => setIsScrolled(window.scrollY > 50)
         window.addEventListener('scroll', handleScroll)
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
 
-    // Scroll Lock when Mobile Menu is open
     useEffect(() => {
         if (isMobileMenuOpen) {
             document.body.style.overflow = 'hidden'
@@ -31,8 +28,6 @@ function Navbar() {
             document.body.style.overflow = ''
             document.documentElement.style.overflow = ''
         }
-
-        // Cleanup ensures we don't leave the page locked if component unmounts
         return () => {
             document.body.style.overflow = ''
             document.documentElement.style.overflow = ''
@@ -47,26 +42,51 @@ function Navbar() {
             transition={{ duration: 0.5 }}
         >
             <div className={`container ${styles.navContainer}`}>
+
+                {/* VIP Logo */}
                 <motion.a
                     href="#home"
                     className={styles.logo}
-                    whileHover={{ scale: 1.02 }}
-                    aria-label="thinker Home"
+                    whileHover={{ scale: 1.04 }}
+                    transition={{ type: 'spring', stiffness: 300 }}
+                    aria-label="MK Home"
                 >
-                    <span className={styles.logoSymbol} aria-hidden="true"></span>
-                    <span className={styles.logoText}>CodeWith</span>
-                    <span className={styles.logoAccent} aria-hidden="true">Manzoor</span>
-                    <span className={styles.logoSymbol} aria-hidden="true"></span>
+                    <div className={styles.logoRing}>
+                        {/* Spinning dashed ring */}
+                        <svg className={styles.ringSvg} viewBox="0 0 44 44" aria-hidden="true">
+                            <circle cx="22" cy="22" r="20"
+                                stroke="var(--primary)"
+                                strokeWidth="1.5"
+                                fill="none"
+                                strokeDasharray="4 6"
+                                opacity="0.7"
+                            />
+                            {/* Corner accent squares */}
+                            <rect x="20.5" y="1"  width="3" height="3" rx="1" fill="var(--primary)" opacity="0.9"/>
+                            <rect x="20.5" y="40" width="3" height="3" rx="1" fill="var(--primary)" opacity="0.9"/>
+                            <rect x="1"    y="20.5" width="3" height="3" rx="1" fill="var(--primary)" opacity="0.9"/>
+                            <rect x="40"   y="20.5" width="3" height="3" rx="1" fill="var(--primary)" opacity="0.9"/>
+                        </svg>
+                        <div className={styles.logoInner}>
+                            <span className={styles.logoLetters}>
+                                <span className={styles.logoM}>M</span>
+                                <span className={styles.logoK}>K</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div className={styles.logoWordmark}>
+                        
+                    </div>
                 </motion.a>
 
-                {/* Desktop Menu */}
+                {/* Desktop Nav */}
                 <ul className={styles.navLinks}>
                     {navLinks.map((link, index) => (
                         <motion.li
                             key={link.name}
                             initial={{ opacity: 0, y: -20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: index * 0.1 }}
+                            transition={{ delay: index * 0.08 }}
                         >
                             <a href={link.href} className={styles.navLink}>
                                 <span className={styles.linkNumber}>0{index + 1}.</span>
@@ -76,13 +96,23 @@ function Navbar() {
                     ))}
                 </ul>
 
+                {/* CTA */}
                 <motion.a
                     href="#contact"
-                    className={`btn btn-primary ${styles.ctaBtn}`}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    className={styles.ctaBtn}
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
                 >
-                    Hire Me
+                    <span className={`${styles.ctaCorner} ${styles.ctaCornerTL}`} />
+                    <span className={`${styles.ctaCorner} ${styles.ctaCornerTR}`} />
+                    <span className={`${styles.ctaCorner} ${styles.ctaCornerBL}`} />
+                    <span className={`${styles.ctaCorner} ${styles.ctaCornerBR}`} />
+                    <span className={styles.ctaText}>Hire Me</span>
+                    <span className={styles.ctaArrow}>
+                        <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                            <path d="M2 6H10M6.5 2.5L10 6L6.5 9.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                    </span>
                 </motion.a>
 
                 {/* Mobile Menu Button */}
@@ -101,22 +131,23 @@ function Navbar() {
             <motion.div
                 className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.open : ''}`}
                 initial={false}
-                animate={isMobileMenuOpen ? { opacity: 1, x: 0 } : { opacity: 0, x: '100%' }}
+                animate={isMobileMenuOpen ? { opacity: 1 } : { opacity: 0 }}
+                transition={{ duration: 0.2 }}
             >
-                <ul className={styles.mobileLinks}>
+                <motion.ul
+                    className={styles.mobileLinks}
+                    initial={false}
+                    animate={isMobileMenuOpen ? { y: 0, opacity: 1 } : { y: -16, opacity: 0 }}
+                    transition={{ duration: 0.25, ease: 'easeOut' }}
+                >
                     {navLinks.map((link, index) => (
                         <li key={link.name}>
-                            <a
-                                href={link.href}
-                                onClick={() => setIsMobileMenuOpen(false)}
-                            >
+                            <a href={link.href} onClick={() => setIsMobileMenuOpen(false)}>
                                 {link.name}
                                 <span className={styles.linkNumber}>0{index + 1}</span>
                             </a>
                         </li>
                     ))}
-
-                    {/* Mobile CTA Button */}
                     <li style={{ width: '100%', listStyle: 'none' }}>
                         <a
                             href="#contact"
@@ -126,7 +157,7 @@ function Navbar() {
                             Start Project
                         </a>
                     </li>
-                </ul>
+                </motion.ul>
             </motion.div>
         </motion.nav>
     )

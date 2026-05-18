@@ -45,6 +45,7 @@ function App() {
                 <Suspense fallback={<div style={{ height: '100px' }}></div>}>
                     <About />
                     <Skills />
+                    <Experience />
                     <Projects />
                     <Contact />
                 </Suspense>

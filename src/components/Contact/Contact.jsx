@@ -2,6 +2,7 @@ import emailjs from '@emailjs/browser'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
 import Toast from '../Toast/Toast'
+import ScrollReveal from '../ScrollReveal/ScrollReveal'
 import styles from './Contact.module.css'
 
 const Github = () => (
@@ -23,12 +24,6 @@ const Mail = () => (
     </svg>
 )
 
-const Phone = () => (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-    </svg>
-)
-
 const Send = () => (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <line x1="22" y1="2" x2="11" y2="13" />
@@ -43,25 +38,11 @@ const MessageCircle = () => (
 )
 
 const socialLinks = [
-    {
-        name: 'GitHub',
-        url: 'https://github.com/ManzoorAliOfficial',
-        icon: <Github />,
-        color: 'primary'
-    },
-    {
-        name: 'LinkedIn',
-        url: 'https://www.linkedin.com/in/manzoorali11',
-        icon: <LinkedIn />,
-        color: 'secondary'
-    },
-    {
-        name: 'Email',
-        url: 'mailto:manzooralidashti11@gmail.com',
-        icon: <Mail />,
-        color: 'accent'
-    },
+    { name: 'GitHub',   url: 'https://github.com/ManzoorAliOfficial',         icon: <Github />,   color: 'primary'   },
+    { name: 'LinkedIn', url: 'https://www.linkedin.com/in/manzoorali11',       icon: <LinkedIn />, color: 'secondary' },
+    { name: 'Email',    url: 'mailto:manzooralidashti11@gmail.com',            icon: <Mail />,     color: 'accent'    },
 ]
+
 const languages = [
     "Let's Work Together",
     "Let's Build Together",
@@ -72,60 +53,47 @@ const languages = [
     "Let's Create Together",
     "Let's Innovate Together",
     "Build the Future With Me"
-];
+]
+
 const ENGLISH_INDEX = languages.length - 1
 const CYCLE_INTERVAL = 250
-const ENGLISH_PAUSE = 300
+const ENGLISH_PAUSE  = 300
 
 function Contact() {
-    const ref = useRef(null)
+    const ref     = useRef(null)
     const formRef = useRef(null)
-    const isInView = useInView(ref, { margin: "-100px" })
-    const [formData, setFormData] = useState({ name: '', email: '', message: '' })
-    const [isSubmitting, setIsSubmitting] = useState(false)
-    const [toast, setToast] = useState({ isVisible: false, message: '', type: 'success' })
+
+    // ✅ FIX: once:true — pehle baar baar reset hota tha scroll pe
+    const isInView = useInView(ref, { once: true, margin: '-100px' })
+
+    const [formData,         setFormData]         = useState({ name: '', email: '', message: '' })
+    const [isSubmitting,     setIsSubmitting]     = useState(false)
+    const [toast,            setToast]            = useState({ isVisible: false, message: '', type: 'success' })
     const [currentLangIndex, setCurrentLangIndex] = useState(0)
-useEffect(() => {
-    if (!isInView) return;
 
-    let timeoutId;
+    // Language cycling — sirf jab section view mein aaye
+    useEffect(() => {
+        if (!isInView) return
+        let timeoutId
+        const getDelay = (i) => i === ENGLISH_INDEX ? ENGLISH_PAUSE : CYCLE_INTERVAL
+        const tick = () => {
+            setCurrentLangIndex(prev => {
+                const next = (prev + 1) % languages.length
+                timeoutId = setTimeout(tick, getDelay(next))
+                return next
+            })
+        }
+        timeoutId = setTimeout(tick, getDelay(currentLangIndex))
+        return () => clearTimeout(timeoutId)
+    }, [isInView, currentLangIndex])
 
-    const getDelay = (index) =>
-        index === ENGLISH_INDEX ? ENGLISH_PAUSE : CYCLE_INTERVAL;
-
-    const tick = () => {
-        setCurrentLangIndex(prev => {
-            const next = (prev + 1) % languages.length;
-
-            // schedule next tick based on NEXT index
-            timeoutId = setTimeout(tick, getDelay(next));
-
-            return next;
-        });
-    };
-
-    timeoutId = setTimeout(tick, getDelay(currentLangIndex));
-
-    return () => clearTimeout(timeoutId);
-}, [isInView, currentLangIndex]);
-    const showToast = (message, type = 'success') => {
-        setToast({ isVisible: true, message, type })
-    }
-
-    const closeToast = () => {
-        setToast(prev => ({ ...prev, isVisible: false }))
-    }
+    const showToast = (message, type = 'success') => setToast({ isVisible: true, message, type })
+    const closeToast = () => setToast(prev => ({ ...prev, isVisible: false }))
 
     const handleSubmit = (e) => {
         e.preventDefault()
         setIsSubmitting(true)
-
-        emailjs.sendForm(
-            'service_9z9ogh7',
-            'template_schoo5j',
-            formRef.current,
-            'tu8byCu5xNqBawxIB'
-        )
+        emailjs.sendForm('service_9z9ogh7', 'template_schoo5j', formRef.current, 'tu8byCu5xNqBawxIB')
             .then(() => {
                 showToast('Message sent successfully! I will get back to you soon.', 'success')
                 setFormData({ name: '', email: '', message: '' })
@@ -134,47 +102,44 @@ useEffect(() => {
                 console.error(error.text)
                 showToast('Failed to send message. Please try again.', 'error')
             })
-            .finally(() => {
-                setIsSubmitting(false)
-            })
+            .finally(() => setIsSubmitting(false))
     }
 
-    const handleChange = (e) => {
-        setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
-    }
+    const handleChange = (e) => setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
 
     return (
         <section id="contact" className={`section ${styles.contact}`}>
-            <Toast
-                isVisible={toast.isVisible}
-                message={toast.message}
-                type={toast.type}
-                onClose={closeToast}
-            />
+            <Toast isVisible={toast.isVisible} message={toast.message} type={toast.type} onClose={closeToast} />
+
             <div className="container">
+
+                {/* ✅ NEW: Section tag — ScrollReveal se upar se aayega */}
+                <ScrollReveal direction="fromBottom" delay="delay100">
+                    <div className="section-header" style={{ textAlign: 'center', marginBottom: '48px' }}>
+                        <span className="section-tag">
+                            <MessageCircle />
+                            Get In Touch
+                        </span>
+                    </div>
+                </ScrollReveal>
+
+                {/* Grid — Framer Motion useInView se (existing logic preserve) */}
                 <motion.div
                     ref={ref}
                     className={styles.contactGrid}
                     initial={{ opacity: 0 }}
                     animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+                    transition={{ duration: 0.4 }}
                 >
                     {/* Left Side - Info */}
                     <motion.div
                         className={styles.contactInfo}
                         initial={{ opacity: 0, x: -50 }}
                         animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
-                        transition={{ delay: 0.2 }}
+                        transition={{ delay: 0.2, duration: 0.6 }}
                     >
-                        <div className="section-header" style={{ textAlign: 'left', marginBottom: '32px' }}>
-                            <span className="section-tag">
-                                <MessageCircle />
-                                Get In Touch
-                            </span>
-                            <h2 className="section-title" style={{
-                                height: '1.5em',
-                                textAlign: 'center',
-                                overflow: 'hidden'
-                            }}>
+                        <div style={{ textAlign: 'left', marginBottom: '32px' }}>
+                            <h2 className="section-title" style={{ height: '1.5em', textAlign: 'center', overflow: 'hidden' }}>
                                 <AnimatePresence mode="wait">
                                     <motion.span
                                         key={currentLangIndex}
@@ -204,8 +169,7 @@ useEffect(() => {
                         <div className={styles.contactDetails}>
                             <div className={styles.detailItem}>
                                 <Mail />
-                                {/* Fixed: was pointing to wrong email with no mailto: */}
-                                <a href="mailto:karthigaiselvamr.cs2022@gmail.com">
+                                <a href="mailto:manzooralidashti11@gmail.com">
                                     manzooralidashti11@gmail.com
                                 </a>
                             </div>
@@ -240,7 +204,7 @@ useEffect(() => {
                         onSubmit={handleSubmit}
                         initial={{ opacity: 0, x: 50 }}
                         animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
-                        transition={{ delay: 0.3 }}
+                        transition={{ delay: 0.3, duration: 0.6 }}
                     >
                         <div className={styles.formHeader}>
                             <span className={styles.dot}></span>
@@ -251,50 +215,18 @@ useEffect(() => {
 
                         <div className={styles.formBody}>
                             <div className={styles.formGroup}>
-                                <label htmlFor="name">
-                                    <span className={styles.labelPrompt}>$</span> name
-                                </label>
-                                <input
-                                    type="text"
-                                    id="name"
-                                    name="name"
-                                    value={formData.name}
-                                    onChange={handleChange}
-                                    placeholder="Lakho"
-                                    required
-                                    autoComplete="name"
-                                />
+                                <label htmlFor="name"><span className={styles.labelPrompt}>$</span> name</label>
+                                <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} placeholder="Lakho" required autoComplete="name" />
                             </div>
 
                             <div className={styles.formGroup}>
-                                <label htmlFor="email">
-                                    <span className={styles.labelPrompt}>$</span> email
-                                </label>
-                                <input
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    placeholder="lakho@example.com"
-                                    required
-                                    autoComplete="email"
-                                />
+                                <label htmlFor="email"><span className={styles.labelPrompt}>$</span> email</label>
+                                <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} placeholder="lakho@example.com" required autoComplete="email" />
                             </div>
 
                             <div className={styles.formGroup}>
-                                <label htmlFor="message">
-                                    <span className={styles.labelPrompt}>$</span> message
-                                </label>
-                                <textarea
-                                    id="message"
-                                    name="message"
-                                    value={formData.message}
-                                    onChange={handleChange}
-                                    placeholder="Tell me about your project..."
-                                    rows="5"
-                                    required
-                                ></textarea>
+                                <label htmlFor="message"><span className={styles.labelPrompt}>$</span> message</label>
+                                <textarea id="message" name="message" value={formData.message} onChange={handleChange} placeholder="Tell me about your project..." rows="5" required></textarea>
                             </div>
 
                             <motion.button
